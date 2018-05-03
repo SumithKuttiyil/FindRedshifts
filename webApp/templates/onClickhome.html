@@ -1,18 +1,180 @@
 <!DOCTYPE html>
 <html>
-<meta http-equiv="Pragma" content="no-cache">
 
+<header>
+<meta http-equiv=”Pragma” content=”no-cache”>
+<meta http-equiv=”Expires” content=”-1″>
+<meta http-equiv=”CACHE-CONTROL” content=”NO-CACHE”>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.5/css/bootstrap-select.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.5/js/bootstrap-select.min.js"></script>
+
+
+
+</header>
+<style>
+
+#table-wrapper {
+  position:right;
+}
+#table-scroll {
+  height:500px;
+  overflow:auto;
+  margin-top:20px;
+}
+#table-wrapper table {
+  position:right;
+  width:50%;
+
+}
+#table-wrapper table * {
+  background:white;
+  color:black;
+}
+#table-wrapper table thead th .text {
+
+  top:-20px;
+  z-index:2;
+  height:20px;
+  width:10%;
+  border:1px solid red;
+}
+div.ex1 {
+
+    overflow: scroll;
+
+}
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+#image{
+right: 0;
+bottom: 0;
+position: absolute;
+
+}
+
+#tab{
+right: 50px;
+bottom: 0;
+position: absolute;
+
+}
+.pixelated {
+  image-rendering: pixelated;
+}
+
+input[type=text], select {
+    width: 50%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type=submit] {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: #45a049;
+}
+
+div {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+}
+
+
+</style>
 <title>
     Redshift
 </title>
 <body>
-<form method="POST">
-    <input name="text" value="7">
-    <input type="submit">
 
-</form>
-<div id="image" visibility={{show}}>
-    <img src="static/img.png" about="cvfvfv">
+<h3>Find the Redshift</h3>
+
+<div>
+  <form action="http://127.0.0.1:5000/" method="POST" enctype="multipart/form-data">
+    <!--<label for="fname">Lowest wavelength</label>-->
+      <input type="file" name="pic" accept=".txt, .dat" align="right">
+      <input type="text" id="number_of_system" name="firstname" placeholder="Number of systems..">
+      <select id="Ions" name="Ions" class="selectpicker" data-style="btn-info" multiple data-max-options="100" data-live-search="true">
+         <!--<option>C II 1334.5323</option>
+        <option>O I 1302.1685</option>
+        <option>Mg II 2803.531</option>
+        <option>Mg II 2796.354</option>
+        <option>Si II 1526.707</option>
+        <option>Si II 1304.37</option>
+       <option>Fe II 1608.4508</option>-->
+       <option>C II</option>
+        <option>O I</option>
+        <option>Mg II</option>
+        <option>Mg II</option>
+        <option>Si II</option>
+        <option>Si II</option>
+       <option>Fe II</option>
+  </select>
+
+     <input type="text" id="fname" name="firstname" placeholder="Lowest wavelength..">
+
+
+<!--
+    <label for="lname">Highest wavelength</label>
+-->
+    <input type="text" id="lname" name="lastname" placeholder="Highest wavelength..">
+
+<!--
+    <label for="Ions">Ions</label>
+-->
+
+    <!-- <select id="Ions" name="Ions" multiple>
+      <option value="Si IV">Si IV</option>
+      <option value="C IV">C IV</option>
+      <option value="C II">C II</option>
+        <option value="O I">O I</option>
+      <option value="Fe II">Fe II</option>
+    </select>-->
+
+
+
+    <input type="submit" value="Submit">
+  </form>
+</div>
+
+<div id="table-wrapper" style="align=right">
+  <div id="table-scroll" style="align=right">
+{{tab}}
+</div>
+</div>
+<div id="image" style="visibility:{{visibility}}">
+    <img src="static/img.png?{{imgName}}" about="cvfvfv" class="pixelated">
 
 </div>
 

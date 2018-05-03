@@ -1,15 +1,151 @@
 <!DOCTYPE html>
 <html>
-<meta http-equiv="Pragma" content="no-cache">
-<title>
-    Redshift
-</title>
+
+<header>
+<meta http-equiv=”Pragma” content=”no-cache”>
+<meta http-equiv=”Expires” content=”-1″>
+<meta http-equiv=”CACHE-CONTROL” content=”NO-CACHE”>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.5/css/bootstrap-select.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.5/js/bootstrap-select.min.js"></script>
+
+
+
+</header>
+
+<style>
+.pixelated {
+  image-rendering: pixelated;
+}
+
+input[type=text], select {
+    width: 50%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type=submit] {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: #45a049;
+}
+
+div {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+}
+
+
+</style>
 <body>
-<form method="POST">
-    <input name="text">
-    <input type="submit">
-</form>
+
+<h3>Find the Redshift</h3>
+
+<div>
+  <form action="http://127.0.0.1:5000/onClickhome" method="POST" enctype="multipart/form-data">
+<!--
+    <label for="fname">Lowest wavelength</label>
+-->
+     <input type="file" name="pic" accept=".txt, .dat" align="right">
+     <input type="text" id="number_of_system" name="number_of_system" data-style="btn-info" placeholder="Number of systems..">
+     <select id="Ions" name="Ions" class="selectpicker" data-style="btn-info" multiple data-max-options="100" data-live-search="true">
+        <!--<option>C II 1334.5323</option>
+        <option>O I 1302.1685</option>
+        <option>Mg II 2803.531</option>
+        <option>Mg II 2796.354</option>
+        <option>Si II 1526.707</option>
+        <option>Si II 1304.37</option>
+       <option>Fe II 1608.4508</option>-->
+        <option>H I	1215.6701</option>
+<option>H I	1025.7223</option>
+<option>C II	1334.5323</option>
+<option>C II	1036.3370</option>
+<option>C IV	1550.7784</option>
+<option>C IV	1548.2049</option>
+<option>N I 	1200.7100</option>
+<option>N I	1200.2233	</option>
+<option>N I	1199.5496	</option>
+<option>N V	1242.8040	</option>
+<option>N V	1238.8210	</option>
+<option>O I	1302.1685	</option>
+<option>O I	1039.2300	</option>
+<option>O VI	1037.6130	</option>
+<option>O VI	1031.9120	</option>
+<option>Na I	5897.5581	</option>
+<option>Na I	5891.5833	</option>
+<option>Mg I	2852.9633	</option>
+<option>Mg II	2803.5310	</option>
+<option>Mg II	2796.3540	</option>
+<option>Al II	1670.7874	</option>
+<option>Si II	1808.0130	</option>
+<option>Si II	1526.7070	</option>
+<option>Si II	1304.3700	</option>
+<option>Si II	1260.4220	</option>
+<option>Si II	1193.2900	</option>
+<option>Si II	1190.4160	</option>
+<option>Si III	1206.5000	</option>
+<option>Si IV	1402.7729	</option>
+<option>Si IV	1393.7602	</option>
+<option>S II	1259.5190	</option>
+<option>S II	1253.8110	</option>
+<option>S II	1250.5840	</option>
+<option>Ca II	3969.5901</option>
+<option>Ca II	3934.7750	</option>
+<option>Mn II	2606.4587	</option>
+<option>Mn II	2594.4966	</option>
+<option>Mn II	2576.8752	</option>
+<option>Fe II	2600.1725</option>
+<option>Fe II	2586.6493</option>
+<option>Fe II	2382.7642</option>
+<option>Fe II	2374.4600	</option>
+<option>Fe II	2344.2127	</option>
+<option>Fe II	1608.4508	</option>
+  </select>
+
+     <input type="text" id="fname" name="firstname" placeholder="Lowest wavelength..">
+
+<!--
+    <label for="lname">Highest wavelength</label>
+-->
+    <input type="text" id="lname" name="lastname" placeholder="Highest wavelength..">
+
+<!--
+    <label for="Ions">Ions</label>
+-->
+   <!-- <select id="Ions" name="Ions" multiple>
+      <option value="Si IV">Si IV</option>
+      <option value="C IV">C IV</option>
+      <option value="C II">C II</option>
+        <option value="O I">O I</option>
+      <option value="Fe II">Fe II</option>
+    </select>-->
 
 
-  </body>
+
+    <input type="submit" value="Submit" >
+  </form>
+</div>
+<div id="image" style="visibility:{{visibility}}">
+    <img src="static/img.png?{{imgName}}" about="cvfvfv" class="pixelated">
+
+</div>
+</body>
 </html>
+
+
