@@ -73,6 +73,7 @@ def findOnecrossingPoints(obs_data):
                   #print(local_minima)
                 elif(leftcom==left and rightcom ==right):
                     temp.append((obs_data[i-1][0], obs_data[i-1][1], obs_data[i-1][2], obs_data[i-1][3], area - obs_data[i-1][4]))
+                    print((obs_data[i][0], obs_data[i][1], area, obs_data[i][4]))
                     temp.append((obs_data[i][0], obs_data[i][1], obs_data[i][2], obs_data[i][3], area - obs_data[i][4]))
 
 
