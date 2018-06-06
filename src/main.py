@@ -12,6 +12,18 @@ color = ['red', 'green', 'black', '#783BA1', '#FFAA1D', '#FA02F2', '#B8B48A']
 
 #keep only one line with same area
 
+def plot_discovered_minimas(obs_data, localminima_data, color):
+    common_flux_loc = np.max(obs_data[:, 1]) - 0.1
+
+    for i in range(0, np.shape(localminima_data)[0]):
+
+          #plt.annotate(str(localminima_data[i][3])+"("+(str(localminima_data[i][2])+")"),xy=(localminima_data[i][0], localminima_data[i][1]),xytext=(common_wav_loc, common_flux_loc),color=color,rotation=-90, arrowprops=dict(arrowstyle="->", color=color))
+          plt.annotate(str(localminima_data[i][0]),xy=(localminima_data[i][0], localminima_data[i][1]),xytext=(localminima_data[i][0], common_flux_loc),color=color,rotation=-90, arrowprops=dict(arrowstyle="->", color=color))
+
+
+
+
+
 #Finding SNR
 def findSNR(obs_data):
     obs_data[:,2]=1/obs_data[:,2]
@@ -28,7 +40,7 @@ def load_ObservationData(filePath):
 #Loading absorption line file
 def load_AbsorptionSpectrum(filePath):
     #print(filePath)
-    absSpectra_file = np.array(pd.read_excel('/Users/sumithkuttiyilsuresh/PycharmProjects/FindRedshifts/data/newIonList.xlsx'))
+    absSpectra_file = np.array(pd.read_excel('/Users/sumithkuttiyilsuresh/PycharmProjects/FindRedshifts/data/brief_atomic_list2.xlsx'))
     return absSpectra_file
 
 #Find out the local minimas in the plot
@@ -55,29 +67,12 @@ def plot_minima_in_graph(obs_data, localminima_data, color):
     common_wav_loc=0
     for i in range(0, np.shape(localminima_data)[0]):
         if(rest_wavelength==localminima_data[i][2]):
-          #plt.annotate(str(localminima_data[i][0])+"("+(str(localminima_data[i][4])+")"),
-
-                     #xy=(localminima_data[i][0], localminima_data[i][1]),
-                     #xytext=(common_wav_loc, common_flux_loc),
-                     #color=color,
-                     #rotation=-90, arrowprops=dict(arrowstyle="->", color=color))
-          plt.annotate('',
-          xy=(localminima_data[i][0], localminima_data[i][1]),
-          xytext=(common_wav_loc, common_flux_loc),
-          color=color,
-          rotation=-90, arrowprops=dict(arrowstyle="->", color=color))
+          #plt.annotate(str(localminima_data[i][3])+"("+(str(localminima_data[i][2])+")"),xy=(localminima_data[i][0], localminima_data[i][1]),xytext=(common_wav_loc, common_flux_loc),color=color,rotation=-90, arrowprops=dict(arrowstyle="->", color=color))
+          plt.annotate(str(localminima_data[i][0]),xy=(localminima_data[i][0], localminima_data[i][1]),xytext=(common_wav_loc, common_flux_loc),color=color,rotation=-90, arrowprops=dict(arrowstyle="->", color=color))
 
         else:
-            #plt.annotate(str(localminima_data[i][0]) + "(" + (str(localminima_data[i][4]) + ")"),
-                         #xy=(localminima_data[i][0], localminima_data[i][1]),
-                        # xytext=(localminima_data[i][0], np.max(obs_data[:, 1])-0.1),
-                         #color=color,
-                         #rotation=-90, arrowprops=dict(arrowstyle="->", color=color))
-            plt.annotate('',
-            xy=(localminima_data[i][0], localminima_data[i][1]),
-            xytext=(localminima_data[i][0], np.max(obs_data[:, 1])-0.1),
-            color=color,
-            rotation=-90, arrowprops=dict(arrowstyle="->", color=color))
+            #plt.annotate(str(localminima_data[i][3]) + "(" + (str(localminima_data[i][2]) + ")"),xy=(localminima_data[i][0], localminima_data[i][1]),xytext=(localminima_data[i][0], np.max(obs_data[:, 1])-0.1),color=color,rotation=-90, arrowprops=dict(arrowstyle="->", color=color))
+            plt.annotate(str(localminima_data[i][0]),xy=(localminima_data[i][0], localminima_data[i][1]),xytext=(localminima_data[i][0], np.max(obs_data[:, 1])-0.1),color=color,rotation=-90, arrowprops=dict(arrowstyle="->", color=color))
             common_flux_loc = np.max(obs_data[:, 1]) - 0.1
             common_wav_loc = localminima_data[i][0]
         rest_wavelength=localminima_data[i][2]
@@ -103,11 +98,16 @@ def mainMethod(pasObject):
     lowestWavelength=int(pasObject.lowestWavelength)
     highestWavelength=int(pasObject.highestWavelength)
     ions_interest=pasObject.ions_interest
-    #print(ions_interest)
+    #print('ions_interest', ions_interest)
     redShiftrange = [0, 5.3]
-    abs_data = load_AbsorptionSpectrum('data/brief_atomic_list2.xlsx')
+    #abs_data = load_AbsorptionSpectrum('data/brief_atomic_list2.xlsx')
+    abs_data=[]
+    for ion in pasObject.ions_interest:
+        abs_data.append([ion.split(' ')[0]+' '+ion.split(' ')[1], float(ion.split(' ')[2])])
+    abs_data=np.array(abs_data)
 
 
+    #print(abs_data)
     obs_data = obs_data[np.logical_not(obs_data[:, 1] <-1)]
     obs_data = obs_data[np.logical_not(obs_data[:, 1] > 2)]
     if(lowestWavelength!=0):
@@ -117,20 +117,31 @@ def mainMethod(pasObject):
     #localminima_data=find_localMinimas(obs_data)
     localminima_data=redshiftFinder.calcthreeSigma(obs_data)
     localminima_data=redshiftFinder.findIndexofFluxOne(localminima_data)
+    #print('average is', np.average(localminima_data[:,1]))
+    #localminima_data=localminima_data[np.logical_not(localminima_data[:, 1] >np.average(localminima_data[:,1]))]
+    #localminima_data=localminima_data[np.logical_not(localminima_data[:, 1] >0.9)]
+
+    #print(localminima_data)
     #localminima_data = find_localMinimas(localminima_data)
     plt=plot_graph(obs_data, localminima_data)
     plt.axhline(y=1, color='r', linestyle='--')
-    plot_minima_in_graph(obs_data, localminima_data, 'black')
+    plot_discovered_minimas(obs_data, localminima_data, 'black')
+    #print(localminima_data)
     plt.show()
-
+    #print(abs_data)
     discovered_z= redshiftFinder.find_redshift_for_each_Ion(number_of_system, localminima_data, abs_data, ions_interest)
     count =0
     z_average=[]
     number_of_points=[]
     final_needed_points=[]
+    #print('*******************************')
+    #print(discovered_z)
+    #print('*******************************')
+    fullionlist = load_AbsorptionSpectrum('data/brief_atomic_list2.xlsx')
+    #print(fullionlist)
     for z in discovered_z:
         if(redShiftrange[0]<z<redShiftrange[1]):
-           zavg,zerror,localminima, points= redshiftFinder.find_redshift_points_in_plot(z, localminima_data, abs_data)
+           zavg,zerror,localminima, points= redshiftFinder.find_redshift_points_in_plot(z, localminima_data, fullionlist)
            z_average.append((zavg, zerror))
            plot_minima_in_graph(obs_data, localminima, color[count])
            final_needed_points.append(localminima)
@@ -140,6 +151,7 @@ def mainMethod(pasObject):
     plt.title('('+fileName+')Observed wavelength Vs Normalized flux')
     plt.xlabel(r'$\lambda_{obs}$')
     plt.ylabel('f 'r'$_{\lambda_{obs}}$')
+    plt.show()
     plt.savefig('/Users/sumithkuttiyilsuresh/PycharmProjects/FindRedshifts/webApp/static/img.png',  dpi=100)
 
     return (final_needed_points)
